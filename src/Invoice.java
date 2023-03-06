@@ -1,43 +1,21 @@
 import java.util.*;
 public class Invoice {
 	private int invoiceNumber;
-	private String customerFullName;
-	private String phoneNumber;
+	private String Name;
+	private int phoneNumber;
 	private Date invoiceDate;
-	private List<Item> items;
-	private double totalAmount;
+	ArrayList<Item> items = new ArrayList<Item>();
     private double paidAmount;
-    private double balance;
     
-    public Invoice(
-    		int invoiceNumber, 
-    		String customerFullName, 
-    		String phoneNumber, 
-    		Date invoiceDate, 
-    		List<Item> items, 
-    		double totalAmount, 
-    		double paidAmount, 
-    		double balance
-    		){
-        this.invoiceNumber = invoiceNumber;
-        this.customerFullName = customerFullName;
-        this.phoneNumber = phoneNumber;
-        this.invoiceDate = invoiceDate;
-        this.items = items;
-        this.totalAmount = totalAmount;
-        this.paidAmount = paidAmount;
-        this.balance = balance;
-    }
-
     public int getInvoiceNumber() {
         return invoiceNumber;
     }
 
-    public String getCustomerFullName() {
-        return customerFullName;
+    public String getName() {
+        return Name;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -45,11 +23,15 @@ public class Invoice {
         return invoiceDate;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public int getItems() {
+        return items.size();
     }
 
     public double getTotalAmount() {
+    	double totalAmount = 0;
+    	for (Item i : items) {
+    		totalAmount += i.getTotalAmount();
+    	}
         return totalAmount;
     }
 
@@ -58,10 +40,28 @@ public class Invoice {
     }
 
     public double getBalance() {
-        return balance;
+        return getPaidAmount() - getTotalAmount();
     }
+    
+    public void setInvoiceNumber(int invoiceNumber) {
+    	this.invoiceNumber = invoiceNumber;
+    }
+    
+    public void setName(String Name) {
+    	this.Name = Name;
+    }
+    public void setPhoneNumber(int phoneNumber) {
+    	this.phoneNumber = phoneNumber;
+    }
+    public void setInvoiceDate(Date invoiceDate) {
+    	this.invoiceDate = invoiceDate;
+    }
+    public boolean setPaidAmount(double paidAmount) {
+    	if(paidAmount >= getTotalAmount()) {
+    		this.paidAmount = paidAmount;
+    		return true;
+    	} else {return false;}
+    }
+    
 
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 }

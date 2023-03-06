@@ -1,23 +1,34 @@
 
 public class Item {
 	    private Product product;
-	    private int quantity;
-
-	    public Item(Product product, int quantity) {
-	        this.product = product;
-	        this.quantity = quantity;
+	    private float quantity;
+	    
+	    public String getProductName() {
+	    	return product.getName();
 	    }
-
-	    public Product getProduct() {
-	        return product;
+	    
+	    public int getProductId() {
+	    	return product.getId();
 	    }
-
-	    public int getQuantity() {
+	    
+	    public double getProductPrice() {
+	    	return product.getPrice();
+	    }
+	    
+	    public float getQuantity() {
 	        return quantity;
 	    }
 
-	    public double getItemAmount() {
+	    public double getTotalAmount() {
 	        return product.getPrice() * quantity;
+	    }
+	    
+	    public void setProduct(Product product) {
+	    	this.product = product;
+	    }
+	    
+	    public void setQuantity(float quantity) {
+	    	this.quantity = quantity;
 	    }
 }
 
