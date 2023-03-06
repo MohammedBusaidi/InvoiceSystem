@@ -4,8 +4,6 @@ public class Product {
 	    private String name;
 	    private double price;
 
-
-
 	    public int getId() {
 	        return id;
 	    }
@@ -29,5 +27,4 @@ public class Product {
 	   public void setPrice(double price) {
 		   this.price = price;
 	   }
-
 }

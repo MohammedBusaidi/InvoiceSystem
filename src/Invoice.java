@@ -4,7 +4,7 @@ public class Invoice {
 	private String Name;
 	private int phoneNumber;
 	private Date invoiceDate;
-	ArrayList<Item> items = new ArrayList<Item>();
+	ArrayList<InvoiceItem> items = new ArrayList<InvoiceItem>();
     private double paidAmount;
     
     public int getInvoiceNumber() {
@@ -29,7 +29,7 @@ public class Invoice {
 
     public double getTotalAmount() {
     	double totalAmount = 0;
-    	for (Item i : items) {
+    	for (InvoiceItem i : items) {
     		totalAmount += i.getTotalAmount();
     	}
         return totalAmount;

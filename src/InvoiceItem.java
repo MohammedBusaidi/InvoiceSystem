@@ -1,10 +1,11 @@
 
-public class Item {
+public class InvoiceItem {
+
 	    private Product product;
 	    private float quantity;
 	    
-	    public String getProductName() {
-	    	return product.getName();
+	    public Product getProductName() {
+	    	return product;
 	    }
 	    
 	    public int getProductId() {
@@ -31,5 +32,4 @@ public class Item {
 	    	this.quantity = quantity;
 	    }
 }
-
 
