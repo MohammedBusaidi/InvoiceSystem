@@ -68,16 +68,17 @@ public class Menue {
 		
 			int shopSettingInput = userSc.nextInt();
 			switch(shopSettingInput) {
-				case 1:
+				case 1://load data
 					break;
 				case 2:
 					System.out.println("Enter Shop Name: ");
 					String shopNameInput = userSc.next();
 					shopManager.setShopName(shopNameInput);
 					break;
-				case 3:
-					subShopSettingLoop = false;
-					
+				case 3: shopManager.setInvoice();
+					break;
+				case 4: subShopSettingLoop = false;
+					break;
 			}
 		}
 	}
@@ -92,18 +93,22 @@ public class Menue {
 			System.out.println("5. Go Back");
 			
 			int shopItemInput = userSc.nextInt();
+		
 			
 			switch(shopItemInput) {
 			case 1:
-				System.out.println("Add Item: ");
-				String addItemInput = userSc.next();
-				Product newProduct = new Product();
-				newProduct.setName(addItemInput);
-				ShopManager.products.add(newProduct);
+				shopManager.addItem();
 				break;
 			case 2:
+				shopManager.removeItem();
 				break;
 			case 3:
+				shopManager.changePrice();
+				break;
+			case 4:
+				shopManager.printAllItems();
+				break;
+			case 5: subShopItemLoop = false;
 				break;
 			}
 		}
