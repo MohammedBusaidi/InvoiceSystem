@@ -2,6 +2,7 @@ import java.util.*;
 public class Menue {
 	Scanner menueSc = new Scanner(System.in);
 	ShopManager shopManager = new ShopManager();
+	Invoice invoice = new Invoice();
 	void  showMenue() {
 		
 		boolean menueLoop = true;
@@ -29,6 +30,7 @@ public class Menue {
 		      		break;
 		
 		      	case 3:
+		      		createInvoice();
 		          	break;
 		          	
 		      	case 4:
@@ -112,6 +114,10 @@ public class Menue {
 				break;
 			}
 		}
+	}
+	
+	void createInvoice() {
+		invoice.createInvoice();
 	}
 	         
 		

@@ -1,5 +1,9 @@
+
+import java.time.LocalDate;
 import java.util.*;
 public class Invoice {
+	
+	Scanner invoiceInput = new Scanner(System.in);
 	private int invoiceNumber;
 	private String Name;
 	private int phoneNumber;
@@ -63,5 +67,23 @@ public class Invoice {
     	} else {return false;}
     }
     
-
+    public void createInvoice() {
+    	System.out.println("Enter customer InvoiceNumber: ");
+    	int customerNInput = invoiceInput.nextInt();
+    	setInvoiceNumber(customerNInput);
+    	System.out.println("Enter customer Full Name: ");
+    	String customerNameInput = invoiceInput.next();
+    	setName(customerNameInput);
+    	System.out.println("Enter customer phone number: ");
+		int customerPhoneNInput = invoiceInput.nextInt();
+		setPhoneNumber(customerPhoneNInput);
+		LocalDate invoiceDate = LocalDate.now();
+		System.out.println("=======================================");
+		System.out.println(customerNInput);
+		System.out.println(customerNameInput);
+		System.out.println(customerPhoneNInput);
+		System.out.println(invoiceDate);
+		System.out.println("=======================================");
+		
+    }
 }
