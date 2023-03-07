@@ -1,4 +1,3 @@
-
 import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.*;
@@ -91,14 +90,8 @@ public class Invoice {
 			else {
 				System.out.println("Invalid Input");
 			}
-    	
-//		System.out.println("=======================================");
-//		System.out.println(customerNInput);
-//		System.out.println(customerNameInput);
-//		System.out.println(customerPhoneNInput);
-//		System.out.println(invoiceDate);
-//		System.out.println("=======================================");
-		
+			
+		//Save to File
 		try (FileWriter writer = new FileWriter("Invoices.txt", true)) {
 			writer.write(String.format("%20s %20s %20s %20s\n", "InvoiceNumber", "Full Name", "Phone Numer", "Date"));
 			writer.write("=================================================================================================\n");

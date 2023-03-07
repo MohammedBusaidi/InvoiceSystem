@@ -121,6 +121,9 @@ public class ShopManager {
 		double addPriceInput = shopScanner.nextDouble();
 		newProduct.setPrice(addPriceInput);
 		products.add(newProduct);
+		System.out.println("Enter Quantity: ");
+		float addQuantity = shopScanner.nextFloat();
+		newProduct.setQunatity(addQuantity);
 		System.out.println("Do you want to add more Items?");
 		String itemOption = shopScanner.next();
 			if (itemOption.equalsIgnoreCase("Y") || itemOption.equalsIgnoreCase("yes")) {
@@ -132,16 +135,17 @@ public class ShopManager {
 				System.out.println("Invalid Input");
 			}
 		try (FileWriter writer = new FileWriter("Items.txt", true)) {
-			   writer.write(String.format("%20s %20s %20s\n", "ID", "Name", "Price"));
-			   writer.write("=================================================================================\n");
+			   writer.write(String.format("%20s %20s %20s %20s\n", "ID", "Name", "Price", "Quantity"));
+			   writer.write("====================================================================================\n");
 			   for (int j = 0; j < products.size(); j++) {
-			   writer.write(String.format("%20s %20s %20s\n",
+			   writer.write(String.format("%20s %20s %20s %20s\n",
 				    		products.get(j).getId(),
 				    		products.get(j).getName(),
-				    		products.get(j).getPrice()
+				    		products.get(j).getPrice(),
+				    		products.get(j).getQuantity()
 					   ));
 			   }
-			   writer.write("=================================================================================\n");
+			   writer.write("====================================================================================\n");
 	   		 writer.close();
 		        System.out.println("iTEMS SAVED!");
 	   	}catch(Exception e) {
@@ -194,6 +198,7 @@ public class ShopManager {
     		System.out.println(products.get(i).getId()); 
     		System.out.println(products.get(i).getName());
     		System.out.println(products.get(i).getPrice()); 
+    		System.out.println(products.get(i).getQuantity()); 
     		System.out.println("=======================================");
     	}
     }

@@ -22,27 +22,37 @@ public class Menue {
 	      int choice = menueSc.nextInt();
 	    	  switch(choice) {
 		      	case 1:
+		      		shopSettingsCount = shopSettingsCount +1;
 		      		showSubShopSetting();
 		      		break;
 		      	
 		      	case 2:
+		      		shopItemCount = shopItemCount + 1;
 		      		showSubShopItem();
 		      		break;
 		
 		      	case 3:
+		      		newInvoiceCount = newInvoiceCount + 1;
 		      		createInvoice();
 		          	break;
 		          	
 		      	case 4:
+		      		statCount = statCount + 1;
+		      		reportStat();
 		          	break;
 		          	
 		      	case 5:
+		      		allInvoicesCount = allInvoicesCount + 1;
+		      		reportInvoices();
 		          	break;
 		          	
 		      	case 6:
+		      		searchCount = searchCount + 1;
 		          	break;
 		          	
 		      	case 7:
+		      		programStatCount = programStatCount + 1;
+		      		programStat();
 		          	break;
 		          	
 		      	case 8:
@@ -71,16 +81,23 @@ public class Menue {
 		
 			int shopSettingInput = userSc.nextInt();
 			switch(shopSettingInput) {
-				case 1://load data
+				case 1:
+					loadDataCount = loadDataCount +1;
+					//load data
 					break;
 				case 2:
+					setShopNameCount = setShopNameCount +1;
 					System.out.println("Enter Shop Name: ");
 					String shopNameInput = userSc.next();
 					shopManager.setShopName(shopNameInput);
 					break;
-				case 3: shopManager.setInvoice();
+				case 3:
+					setInvoiceHeaderCount = setInvoiceHeaderCount + 1;
+					shopManager.setInvoice();
 					break;
-				case 4: subShopSettingLoop = false;
+				case 4: 
+					goBackCount1 = goBackCount1 + 1;
+					subShopSettingLoop = false;
 					break;
 			}
 		}
@@ -98,18 +115,24 @@ public class Menue {
 			int shopItemInput = userSc.nextInt();
 			switch(shopItemInput) {
 			case 1:
+				addItemsCount = addItemsCount + 1;
 				shopManager.addItem();
 				break;
 			case 2:
+				removeItemsCount = removeItemsCount + 1;
 				shopManager.removeItem();
 				break;
 			case 3:
+				changeItemPriceCount = changeItemPriceCount + 1;
 				shopManager.changePrice();
 				break;
 			case 4:
+				reportAllItemsCount = reportAllItemsCount + 1;
 				shopManager.printAllItems();
 				break;
-			case 5: subShopItemLoop = false;
+			case 5: 
+				goBackCount2 = goBackCount2 + 1;
+				subShopItemLoop = false;
 				break;
 			}
 		}
@@ -118,9 +141,47 @@ public class Menue {
 	void createInvoice() {
 		invoice.createInvoice();
 	}
-	void reportStat() {
+	void reportStat() {}
 		
-	}
-	         
+	
+	void reportInvoices() {}
+	
+	int shopSettingsCount = 0;
+	int loadDataCount = 0;
+	int setShopNameCount = 0;
+	int setInvoiceHeaderCount = 0;
+	int goBackCount1 = 0;
+	int shopItemCount = 0;
+	int addItemsCount = 0;
+	int removeItemsCount = 0;
+	int changeItemPriceCount = 0;
+	int reportAllItemsCount = 0;
+	int goBackCount2 = 0;
+	int newInvoiceCount = 0;
+	int statCount = 0;
+	int allInvoicesCount = 0;
+	int searchCount = 0;
+	int programStatCount = 0;
+	
+	
+	public void programStat() {
+	
+	System.out.println("Manage Shop Settings ---> " + shopSettingsCount);
+	System.out.println("		Load Data ---> " + loadDataCount);
+	System.out.println("		Set Shop Name ---> " + setShopNameCount);
+	System.out.println("		Set Invoice Header ---> " + setInvoiceHeaderCount);
+	System.out.println("		Go Back ---> " + goBackCount1);
+	System.out.println("Manage Shop Items ---> " + shopItemCount);
+	System.out.println("		Add Items ---> " + addItemsCount);
+	System.out.println("		Remove Items ---> " + removeItemsCount);
+	System.out.println("		Change Item Price ---> " + changeItemPriceCount);
+	System.out.println("		Report All Items ---> " + reportAllItemsCount);
+	System.out.println("		Go Back ---> " + goBackCount2);
+	System.out.println("Create New Invoice ---> " + newInvoiceCount);
+	System.out.println("Statistics ---> " + statCount);
+	System.out.println("All Invoices ---> " + allInvoicesCount);
+	System.out.println("Search ---> " + searchCount);
+	System.out.println("Program Statistics ---> " + programStatCount);
+}
 		
 }
