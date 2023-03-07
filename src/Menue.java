@@ -60,6 +60,7 @@ public class Menue {
 		}
 	   }
 	Scanner userSc = new Scanner(System.in);
+	
 	void showSubShopSetting() {
 		boolean subShopSettingLoop = true;
 		while (subShopSettingLoop) {
@@ -95,8 +96,6 @@ public class Menue {
 			System.out.println("5. Go Back");
 			
 			int shopItemInput = userSc.nextInt();
-		
-			
 			switch(shopItemInput) {
 			case 1:
 				shopManager.addItem();
@@ -118,6 +117,9 @@ public class Menue {
 	
 	void createInvoice() {
 		invoice.createInvoice();
+	}
+	void reportStat() {
+		
 	}
 	         
 		

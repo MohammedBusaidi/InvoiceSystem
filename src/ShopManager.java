@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class ShopManager {
 	Scanner shopScanner = new Scanner(System.in);
@@ -42,6 +43,17 @@ public class ShopManager {
 	}
 
     public void setShopName(String shopName) {
+    	
+    	try (FileWriter writer = new FileWriter("ShopName.txt", true)) {
+    		writer.write("=========================\n");
+    		writer.write("Shop Name: " + shopName + "\n");
+    		writer.write("=========================\n");
+    		 writer.close();
+ 	        System.out.println("SHOP NAME SAVED!");
+    	}catch(Exception e) {
+	    	System.out.println("ERROR!");
+	        e.printStackTrace();
+    	}
         this.shopName = shopName;
     }
     
@@ -78,10 +90,27 @@ public class ShopManager {
 	    String emailInput = shopScanner.next();
 	    System.out.print("Website: ");
 	    String websiteInput = shopScanner.next();
-	   setInvoice(telInput, faxInput, emailInput, websiteInput);
+	    setInvoice(telInput, faxInput, emailInput, websiteInput);
+	   
+	   try (FileWriter writer = new FileWriter("InvoiceHeader.txt", true)) {
+		   writer.write(String.format("%20s %20s %20s %20s\n", "Tel", "Fax", "Email", "Website"));
+		   writer.write("=======================================================================================\n");
+		   writer.write(String.format("%20s %20s %20s %20s\n",
+				   telInput, faxInput, emailInput, websiteInput
+				   ));
+		   writer.write("=======================================================================================\n");
+   		 writer.close();
+	        System.out.println("INVOICE HEADER SAVED!");
+   	}catch(Exception e) {
+	    	System.out.println("ERROR!");
+	        e.printStackTrace();
+   	}
+
     }
     
 	public void addItem() {
+		boolean addItemLoop = true;
+		while (addItemLoop) {
 		System.out.println("Enter item ID: ");
 		int addIdInput = shopScanner.nextInt();
 		newProduct.setId(addIdInput);
@@ -92,7 +121,34 @@ public class ShopManager {
 		double addPriceInput = shopScanner.nextDouble();
 		newProduct.setPrice(addPriceInput);
 		products.add(newProduct);
-		System.out.println("Item Added!");
+		System.out.println("Do you want to add more Items?");
+		String itemOption = shopScanner.next();
+			if (itemOption.equalsIgnoreCase("Y") || itemOption.equalsIgnoreCase("yes")) {
+			}
+			else if(itemOption.equalsIgnoreCase("N") || itemOption.equalsIgnoreCase("no")) {
+				addItemLoop = false;
+			}
+			else {
+				System.out.println("Invalid Input");
+			}
+		try (FileWriter writer = new FileWriter("Items.txt", true)) {
+			   writer.write(String.format("%20s %20s %20s\n", "ID", "Name", "Price"));
+			   writer.write("=================================================================================\n");
+			   for (int j = 0; j < products.size(); j++) {
+			   writer.write(String.format("%20s %20s %20s\n",
+				    		products.get(j).getId(),
+				    		products.get(j).getName(),
+				    		products.get(j).getPrice()
+					   ));
+			   }
+			   writer.write("=================================================================================\n");
+	   		 writer.close();
+		        System.out.println("iTEMS SAVED!");
+	   	}catch(Exception e) {
+		    	System.out.println("ERROR!");
+		        e.printStackTrace();
+	   	}
+		}
    
     }
 

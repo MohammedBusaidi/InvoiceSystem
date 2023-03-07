@@ -1,4 +1,5 @@
 
+import java.io.FileWriter;
 import java.time.LocalDate;
 import java.util.*;
 public class Invoice {
@@ -68,6 +69,8 @@ public class Invoice {
     }
     
     public void createInvoice() {
+    	boolean invoiceLoop = true;
+    	while (invoiceLoop) {
     	System.out.println("Enter customer InvoiceNumber: ");
     	int customerNInput = invoiceInput.nextInt();
     	setInvoiceNumber(customerNInput);
@@ -78,12 +81,38 @@ public class Invoice {
 		int customerPhoneNInput = invoiceInput.nextInt();
 		setPhoneNumber(customerPhoneNInput);
 		LocalDate invoiceDate = LocalDate.now();
-		System.out.println("=======================================");
-		System.out.println(customerNInput);
-		System.out.println(customerNameInput);
-		System.out.println(customerPhoneNInput);
-		System.out.println(invoiceDate);
-		System.out.println("=======================================");
+		System.out.println("Do you want to another invoice?");
+		String invoiceOption = invoiceInput.next();
+			if (invoiceOption.equalsIgnoreCase("Y") || invoiceOption.equalsIgnoreCase("yes")) {
+			}
+			else if(invoiceOption.equalsIgnoreCase("N") || invoiceOption.equalsIgnoreCase("no")) {
+				invoiceLoop = false;
+			}
+			else {
+				System.out.println("Invalid Input");
+			}
+    	
+//		System.out.println("=======================================");
+//		System.out.println(customerNInput);
+//		System.out.println(customerNameInput);
+//		System.out.println(customerPhoneNInput);
+//		System.out.println(invoiceDate);
+//		System.out.println("=======================================");
+		
+		try (FileWriter writer = new FileWriter("Invoices.txt", true)) {
+			writer.write(String.format("%20s %20s %20s %20s\n", "InvoiceNumber", "Full Name", "Phone Numer", "Date"));
+			writer.write("=================================================================================================\n");
+			writer.write(String.format("%20s %20s %20s %20s\n",
+					customerNInput, customerNameInput, customerPhoneNInput, invoiceDate
+					));
+    		writer.write("=================================================================================================\n");
+    		 writer.close();
+ 	        System.out.println("INVOICE SAVED!");
+    	}catch(Exception e) {
+	    	System.out.println("ERROR!");
+	        e.printStackTrace();
+    	}
+    	}
 		
     }
 }
