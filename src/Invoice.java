@@ -1,9 +1,8 @@
-import java.io.FileWriter;
-import java.time.LocalDate;
+
 import java.util.*;
 public class Invoice {
 	
-	Scanner invoiceInput = new Scanner(System.in);
+	static Scanner invoiceInput = new Scanner(System.in);
 	private int invoiceNumber;
 	private String Name;
 	private int phoneNumber;
@@ -67,45 +66,8 @@ public class Invoice {
     	} else {return false;}
     }
     
-    public void createInvoice() {
-    	boolean invoiceLoop = true;
-    	while (invoiceLoop) {
-    	System.out.println("Enter customer InvoiceNumber: ");
-    	int customerNInput = invoiceInput.nextInt();
-    	setInvoiceNumber(customerNInput);
-    	System.out.println("Enter customer Full Name: ");
-    	String customerNameInput = invoiceInput.next();
-    	setName(customerNameInput);
-    	System.out.println("Enter customer phone number: ");
-		int customerPhoneNInput = invoiceInput.nextInt();
-		setPhoneNumber(customerPhoneNInput);
-		LocalDate invoiceDate = LocalDate.now();
-		System.out.println("Do you want to another invoice?");
-		String invoiceOption = invoiceInput.next();
-			if (invoiceOption.equalsIgnoreCase("Y") || invoiceOption.equalsIgnoreCase("yes")) {
-			}
-			else if(invoiceOption.equalsIgnoreCase("N") || invoiceOption.equalsIgnoreCase("no")) {
-				invoiceLoop = false;
-			}
-			else {
-				System.out.println("Invalid Input");
-			}
-			
-		//Save to File
-		try (FileWriter writer = new FileWriter("Invoices.txt", true)) {
-			writer.write(String.format("%20s %20s %20s %20s\n", "InvoiceNumber", "Full Name", "Phone Numer", "Date"));
-			writer.write("=================================================================================================\n");
-			writer.write(String.format("%20s %20s %20s %20s\n",
-					customerNInput, customerNameInput, customerPhoneNInput, invoiceDate
-					));
-    		writer.write("=================================================================================================\n");
-    		 writer.close();
- 	        System.out.println("INVOICE SAVED!");
-    	}catch(Exception e) {
-	    	System.out.println("ERROR!");
-	        e.printStackTrace();
-    	}
-    	}
+   
 		
-    }
+    
+    
 }

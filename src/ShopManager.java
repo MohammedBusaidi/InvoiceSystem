@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.time.LocalDate;
 
 public class ShopManager {
 	Scanner shopScanner = new Scanner(System.in);
@@ -10,8 +11,8 @@ public class ShopManager {
     private int fax;
     private String email;
     private String website;
-    static ArrayList<Invoice> invoice = new ArrayList<Invoice>();
     static ArrayList<Product> products = new ArrayList<Product>();
+	public ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 	Product newProduct = new Product();
    
     public String getShopName() {
@@ -202,4 +203,77 @@ public class ShopManager {
     		System.out.println("=======================================");
     	}
     }
+    
+    Scanner invoiceSc = new Scanner(System.in);
+    public void createInvoice() {
+        Invoice newInvoice = new Invoice();
+    	boolean invoiceLoop = true;
+    	while (invoiceLoop) {
+    	System.out.println("Enter customer InvoiceNumber: ");
+    	int customerNInput = invoiceSc.nextInt();
+    	newInvoice.setInvoiceNumber(customerNInput);
+    	System.out.println("Enter customer Full Name: ");
+    	String customerNameInput = invoiceSc.next();
+    	newInvoice.setName(customerNameInput);
+    	System.out.println("Enter customer phone number: ");
+		int customerPhoneNInput = invoiceSc.nextInt();
+		newInvoice.setPhoneNumber(customerPhoneNInput);
+		LocalDate invoiceDate = LocalDate.now();
+		System.out.println("Do you want to another invoice?");
+		String invoiceOption = invoiceSc.next();
+			if (invoiceOption.equalsIgnoreCase("Y") || invoiceOption.equalsIgnoreCase("yes")) {
+			}
+			else if(invoiceOption.equalsIgnoreCase("N") || invoiceOption.equalsIgnoreCase("no")) {
+				invoiceLoop = false;
+			}
+			else {
+				System.out.println("Invalid Input");
+			}
+			//to store the invoices in a list.
+			invoices.add(newInvoice);
+		//Save to File
+		try (FileWriter writer = new FileWriter("Invoices.txt", true)) {
+			writer.write(String.format("%20s %20s %20s %20s\n", "InvoiceNumber", "Full Name", "Phone Numer", "Date"));
+			writer.write("=================================================================================================\n");
+			writer.write(String.format("%20s %20s %20s %20s\n",
+					customerNInput, customerNameInput, customerPhoneNInput, invoiceDate
+					));
+    		writer.write("=================================================================================================\n");
+    		 writer.close();
+ 	        System.out.println("INVOICE SAVED!");
+    	}catch(Exception e) {
+	    	System.out.println("ERROR!");
+	        e.printStackTrace();
+    	}
+    	}
+    }
+    
+    public Invoice printInvoice() {
+    	System.out.println("Invoice Details: \n");
+    	System.out.println("================================================= \n");
+    	for (int i = 0; i < invoices.size(); i++) {
+    		System.out.println("Invoice Number");
+    		System.out.println(invoices.get(i).getInvoiceNumber());
+    		System.out.println("Name: ");
+        	System.out.println(invoices.get(i).getName());
+        	System.out.println("Phone Number: ");
+        	System.out.println(invoices.get(i).getPhoneNumber());
+        	System.out.println("Total Balance: ");
+        	System.out.println(invoices.get(i).getTotalAmount());
+        	System.out.println("================================================= \n");
+    	}
+    	return null;
+    }
+    
+    public Invoice searchInoive() {
+    	System.out.println("Enter the invoice number to show all details: ");
+    	int searchInput = invoiceSc.nextInt();
+    	for (int i =0; i < invoices.size(); i++) {
+    		if (searchInput == invoices.get(i).getInvoiceNumber()) {
+    			System.out.println("Name: " + invoices.get(i).getName());
+        		System.out.println("Phone Number" + invoices.get(i).getPhoneNumber());
+        	}
+    	}
+		return null;
+	}
 }

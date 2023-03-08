@@ -7,19 +7,27 @@ public class Menue {
 		
 		boolean menueLoop = true;
 	    while(menueLoop) {
-	    	System.out.println("==== Groceries Shop Management System ====");
-		    System.out.println("1. Manage Shop Settings");
-		    System.out.println("2. Manage Shop Items");
-		    System.out.println("3. Create New Invoice ");
-		    System.out.println("4. Statistics");
-		    System.out.println("5. All Invoices");
-		    System.out.println("6. Search ");
-		    System.out.println("7. Program Statistics");
-		    System.out.println("8. Exit");
-		    System.out.println("==========================================");
-		    System.out.print("Enter your choice: ");
+	    	HashMap<Integer, String> menuOptions = new HashMap<Integer, String>();
+	        menuOptions.put(1, "Manage Shop Settings");
+	        menuOptions.put(2, "Manage Shop Items");
+	        menuOptions.put(3, "Create New Invoice");
+	        menuOptions.put(4, "Statistics");
+	        menuOptions.put(5, "All Invoices");
+	        menuOptions.put(6, "Search");
+	        menuOptions.put(7, "Program Statistics");
+	        menuOptions.put(8, "Exit");
+	        
+	        int choice = 0;
+	        
+	        while (choice != 8) {
+	            System.out.println("==== Groceries Shop Management System ====");
+	            for (int i = 1; i <= 8; i++) {
+	                System.out.println(i + ". " + menuOptions.get(i));
+	            }
+	            System.out.println("==========================================");
+	            System.out.print("Enter your choice: ");
+	            choice = menueSc.nextInt();
       
-	      int choice = menueSc.nextInt();
 	    	  switch(choice) {
 		      	case 1:
 		      		shopSettingsCount = shopSettingsCount +1;
@@ -43,11 +51,13 @@ public class Menue {
 		          	
 		      	case 5:
 		      		allInvoicesCount = allInvoicesCount + 1;
-		      		reportInvoices();
+		      		shopManager.printInvoice();
 		          	break;
 		          	
 		      	case 6:
 		      		searchCount = searchCount + 1;
+		      		shopManager.searchInoive();
+		      		
 		          	break;
 		          	
 		      	case 7:
@@ -66,6 +76,7 @@ public class Menue {
 		      		else if(exitOption.equalsIgnoreCase("N") || exitOption.equalsIgnoreCase("no")) {
 		      			showMenue();
 	      		}
+	    	  }
 	      }
 		}
 	   }
@@ -139,12 +150,11 @@ public class Menue {
 	}
 	
 	void createInvoice() {
-		invoice.createInvoice();
+		shopManager.createInvoice();
 	}
 	void reportStat() {}
-		
 	
-	void reportInvoices() {}
+	
 	
 	int shopSettingsCount = 0;
 	int loadDataCount = 0;
