@@ -1,5 +1,9 @@
 import java.util.*;
+import java.beans.Statement;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.time.LocalDate;
 
 public class ShopManager {
@@ -128,6 +132,13 @@ public class ShopManager {
     }
 
 	public void addItem() {
+		String url = "jdbc:sqlserver://localhost:1433;" +
+                "databaseName=Invoice;" +
+                "encrypt=true;" +
+                "trustServerCertificate=true";
+		 String user = "sa";
+	     String pass = "root";
+	     Connection con = null;
 		boolean addItemLoop = true;
 		while (addItemLoop) {
 			Product newProduct = new Product();
@@ -165,8 +176,35 @@ public class ShopManager {
 				System.out.println("ERROR!");
 				e.printStackTrace();
 			}
-		}
+			try {
+	            Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	            DriverManager.registerDriver(driver);
 
+	            con = DriverManager.getConnection(url, user, pass);
+
+	            java.sql.Statement st = con.createStatement();
+	            
+	            String sql = "CREATE TABLE addItems ("	           
+	    	            + "Item_ID INTEGER primary key,"
+	    	            + "Item_Name varchar(20) not null,"
+	    	            + "Item_Price INTEGER,"
+	    	            + " );"
+	    	            ;
+	            st.executeUpdate(sql);
+	            System.out.println("created successfully");
+	            
+	            String sqlValues = "insert into invoices values("
+	            		+ ""+ newProduct.getId() + 
+	            		",'" + newProduct.getName() + 
+	            		"'," + "'" + 
+	            		newProduct.getPrice() 
+	            		+ ");";
+	            st.executeUpdate(sqlValues);
+
+	        } catch (Exception ex) {
+	            System.err.println(ex);
+	        }
+		}
 	}
 
 	public void removeItem() {
@@ -220,9 +258,18 @@ public class ShopManager {
 	Scanner invoiceSc = new Scanner(System.in);
 
 	public void createInvoice() {
-		Invoice newInvoice = new Invoice();
+		String url = "jdbc:sqlserver://localhost:1433;" +
+                "databaseName=Invoice;" +
+                "encrypt=true;" +
+                "trustServerCertificate=true";
+		 String user = "sa";
+	     String pass = "root";
+	     Connection con = null;
+
+		;
 		boolean invoiceLoop = true;
 		while (invoiceLoop) {
+			Invoice newInvoice = new Invoice();
 			System.out.println("=======================================");
 			System.out.println("Enter customer InvoiceNumber: ");
 			int customerNInput = invoiceSc.nextInt();
@@ -261,7 +308,40 @@ public class ShopManager {
 				System.out.println("ERROR!");
 				e.printStackTrace();
 			}
+			
+			try {
+
+	            Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+	            DriverManager.registerDriver(driver);
+
+	            con = DriverManager.getConnection(url, user, pass);
+
+	            java.sql.Statement st = con.createStatement();
+	            
+	            String sql = "CREATE TABLE createInvoice ("	           
+	    	            + "Invoice_Number INTEGER primary key,"
+	    	            + "Full_Name varchar(20) not null,"
+	    	            + "phone_number INTEGER,"
+	    	            + "Date date"
+	    	            + " );"
+	    	            ;
+	            st.executeUpdate(sql);
+	            System.out.println("created successfully");
+	            
+	            String sqlValues = "insert into invoices values("
+	            		+ ""+ newInvoice.getInvoiceNumber() + 
+	            		",'" + newInvoice.getName() + 
+	            		"'," + "'" + 
+	            		newInvoice.getPhoneNumber() + 
+	            		LocalDate.now()
+	            		+ ");";
+	            st.executeUpdate(sqlValues);
+
+	        } catch (Exception ex) {
+	            System.err.println(ex);
+	        }
 		}
+			
 	}
 
 	public Invoice printInvoice() {
