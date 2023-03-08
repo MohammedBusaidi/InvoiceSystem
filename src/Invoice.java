@@ -7,8 +7,10 @@ public class Invoice {
 	private String Name;
 	private int phoneNumber;
 	private Date invoiceDate;
-	ArrayList<InvoiceItem> items = new ArrayList<InvoiceItem>();
     private double paidAmount;
+    ArrayList<InvoiceItem> items = new ArrayList<InvoiceItem>();
+	
+
     
     public int getInvoiceNumber() {
         return invoiceNumber;
@@ -26,10 +28,6 @@ public class Invoice {
         return invoiceDate;
     }
 
-    public int getItems() {
-        return items.size();
-    }
-
     public double getTotalAmount() {
     	double totalAmount = 0;
     	for (InvoiceItem i : items) {
@@ -45,6 +43,10 @@ public class Invoice {
     public double getBalance() {
         return getPaidAmount() - getTotalAmount();
     }
+    
+    public int getItems() {
+		return items.size();
+	}
     
     public void setInvoiceNumber(int invoiceNumber) {
     	this.invoiceNumber = invoiceNumber;
@@ -66,7 +68,7 @@ public class Invoice {
     	} else {return false;}
     }
     
-   
+    
 		
     
     

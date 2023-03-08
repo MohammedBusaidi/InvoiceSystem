@@ -1,7 +1,7 @@
 import java.util.*;
 public class Menue {
 	Scanner menueSc = new Scanner(System.in);
-	ShopManager shopManager = new ShopManager();
+	static ShopManager shopManager = new ShopManager();
 	Invoice invoice = new Invoice();
 	void  showMenue() {
 		
@@ -41,12 +41,12 @@ public class Menue {
 		
 		      	case 3:
 		      		newInvoiceCount = newInvoiceCount + 1;
-		      		createInvoice();
+		      		shopManager.createInvoice();
 		          	break;
 		          	
 		      	case 4:
 		      		statCount = statCount + 1;
-		      		reportStat();
+		      		shopManager.reportStat();
 		          	break;
 		          	
 		      	case 5:
@@ -148,13 +148,6 @@ public class Menue {
 			}
 		}
 	}
-	
-	void createInvoice() {
-		shopManager.createInvoice();
-	}
-	void reportStat() {}
-	
-	
 	
 	int shopSettingsCount = 0;
 	int loadDataCount = 0;
