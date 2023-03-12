@@ -1,4 +1,5 @@
 
+import java.time.LocalDate;
 import java.util.*;
 public class Invoice {
 	
@@ -6,7 +7,7 @@ public class Invoice {
 	private int invoiceNumber;
 	private String Name;
 	private int phoneNumber;
-	private Date invoiceDate;
+	private LocalDate invoiceDate;
     private double paidAmount;
     ArrayList<InvoiceItem> items = new ArrayList<InvoiceItem>();
 	
@@ -24,7 +25,7 @@ public class Invoice {
         return phoneNumber;
     }
 
-    public Date getInvoiceDate() {
+    public LocalDate getInvoiceDate() {
         return invoiceDate;
     }
 
@@ -58,7 +59,7 @@ public class Invoice {
     public void setPhoneNumber(int phoneNumber) {
     	this.phoneNumber = phoneNumber;
     }
-    public void setInvoiceDate(Date invoiceDate) {
+    public void setInvoiceDate(LocalDate invoiceDate) {
     	this.invoiceDate = invoiceDate;
     }
     public boolean setPaidAmount(double paidAmount) {
