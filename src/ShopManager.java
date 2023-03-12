@@ -48,7 +48,7 @@ public class ShopManager {
 
 		try (FileWriter writer = new FileWriter("Invoice.txt", true)) {
 			writer.write("=========================\n");
-			writer.write("Shop Name: " + shopName + "\n");
+			writer.write("========== Shop Name: " + shopName + "==========" + "\n");
 			writer.write("=========================\n");
 			writer.close();
 			System.out.println("SHOP NAME SAVED!");
@@ -158,8 +158,8 @@ public class ShopManager {
 			newProduct.setPrice(addPriceInput);
 			System.out.println("Enter the Quantity: ");
 			float addQuantityInput = shopScanner.nextFloat();
-			newInvoiceItem.setProduct(newProduct);
 			newInvoiceItem.setQuantity(addQuantityInput);
+			newInvoiceItem.setProduct(newProduct);
 			System.out.println("=======================================");
 
 			System.out.println("Do you want to add more Items?");
@@ -192,7 +192,7 @@ public class ShopManager {
 					"=================================================================================================\n");
 			}
 			writer.close();
-			System.out.println("iTEMS SAVED!");
+			System.out.println("ITEMS SAVED!");
 		} catch (Exception e) {
 			System.out.println("ERROR!");
 			e.printStackTrace();
@@ -366,6 +366,7 @@ public class ShopManager {
 		System.out.println("===== Invoice Details =====");
 		System.out.println("=================================================");
 		for (int i = 0; i < invoices.size(); i++) {
+			for (int j =0; j < invoiceItems.size(); j++) {
 			System.out.println("Invoice Number: ");
 			System.out.println(invoices.get(i).getInvoiceNumber());
 			System.out.println("Name: ");
@@ -373,14 +374,11 @@ public class ShopManager {
 			System.out.println("Phone Number: ");
 			System.out.println(invoices.get(i).getPhoneNumber());
 			System.out.println("Number Of Items: ");
-			System.out.println(invoices.get(i).getItems());
+			System.out.println(invoices.size());
 			System.out.println("Total Balance: ");
-			System.out.println(invoices.get(i).getTotalAmount());
-			System.out.println("Paid Amount: ");
-			System.out.println(invoices.get(i).getPaidAmount());
-			System.out.println("Balance: ");
-			System.out.println(invoices.get(i).getBalance());
+			System.out.println(invoiceItems.get(j).getTotalAmount());
 			System.out.println("=================================================");
+			}
 		}
 		return null;
 	}
@@ -390,12 +388,15 @@ public class ShopManager {
 		int searchInput = invoiceSc.nextInt();
 		for (int i = 0; i < invoices.size(); i++) {
 			if (searchInput == invoices.get(i).getInvoiceNumber()) {
+				for (int j =0; j < invoiceItems.size(); j++) {
 				System.out.println("=======================================");
 				System.out.println("Name: " + invoices.get(i).getName());
 				System.out.println("Phone Number: " + invoices.get(i).getPhoneNumber());
-				System.out.println("Total Balance: " + invoices.get(i).getTotalAmount());
+				System.out.println("Number Of Items: " + invoices.size());
+				System.out.println("Total Balance: " + invoiceItems.get(i).getTotalAmount());
 				System.out.println("=======================================");
 			}
+				}
 		}
 		return null;
 	}
