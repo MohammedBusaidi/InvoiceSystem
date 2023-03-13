@@ -15,7 +15,6 @@ public class ShopManager {
 	private String email;
 	private String website;
 
-	private float totalSales;
 	static ArrayList<Product> products = new ArrayList<Product>();
 	static ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 	static ArrayList<InvoiceItem> invoiceItems = new ArrayList<InvoiceItem>();
@@ -48,7 +47,7 @@ public class ShopManager {
 
 		try (FileWriter writer = new FileWriter("Invoice.txt", true)) {
 			writer.write("=========================\n");
-			writer.write("========== Shop Name: " + shopName + "==========" + "\n");
+			writer.write("=============== Shop Name: " + shopName + " ===============" + "\n");
 			writer.write("=========================\n");
 			writer.close();
 			System.out.println("SHOP NAME SAVED!");
@@ -80,6 +79,10 @@ public class ShopManager {
 		this.fax = fax;
 		this.email = email;
 		this.website = website;
+	}
+
+	public void loadData() {
+
 	}
 
 	public void setInvoice() {
@@ -117,20 +120,13 @@ public class ShopManager {
 	public void reportStat() {
 		int noOfProducts;
 		int noOfInvoices;
-		float totalSales = 0;
-		for (Invoice i : invoices) {
-			totalSales += i.getTotalAmount();
-		}
 		noOfProducts = products.size();
 		noOfInvoices = products.size();
-		this.totalSales = totalSales;
 		System.out.println("=======================================");
 		System.out.println("No Of Items: ");
 		System.out.println(noOfProducts);
 		System.out.println("No of Invoices: ");
 		System.out.println(noOfInvoices);
-		System.out.println("Total Sales: ");
-		System.out.println(totalSales);
 		System.out.println("=======================================");
 	}
 
@@ -178,55 +174,43 @@ public class ShopManager {
 			writer.write(String.format("%20s %20s %20s  %20s\n", "ID", "Name", "Price", "Quantity"));
 			writer.write(
 					"=================================================================================================\n");
-			for (int i = 0; i < products.size(); i++) {
-				for (int j = 0; j < invoiceItems.size(); j++) {
-				writer.write(String.format("%20s %20s %20s %20s\n", 
-						products.get(i).getId(), 
-						products.get(i).getName(),
-						products.get(i).getPrice(),
-						invoiceItems.get(j).getQuantity()
-						));
-				}
-			
+
+			for (int i = 0; i < invoiceItems.size(); i++) {
+				Product product = invoiceItems.get(i).getProductName();
+				writer.write(String.format("%20s %20s %20s %20s\n", product.getId(), product.getName(),
+						product.getPrice(), invoiceItems.get(i).getQuantity()));
+			}
+
 			writer.write(
 					"=================================================================================================\n");
-			}
-			writer.close();
 			System.out.println("ITEMS SAVED!");
 		} catch (Exception e) {
 			System.out.println("ERROR!");
 			e.printStackTrace();
 		}
 		try {
-            Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
-            DriverManager.registerDriver(driver);
+			Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+			DriverManager.registerDriver(driver);
 
-            con = DriverManager.getConnection(url, user, pass);
+			con = DriverManager.getConnection(url, user, pass);
 
-            java.sql.Statement st = con.createStatement();
-            
-            String sql1 = "CREATE TABLE addItems ("	           
-    	            + "Item_ID INTEGER primary key,"
-    	            + "Item_Name varchar(20) not null,"
-    	            + "Item_Price INTEGER,"
-    	            + " );"
-    	            ;
-            st.executeUpdate(sql1);
-            System.out.println("created successfully");
-            
-            String sqlValues1 = "insert into addItems values("
-            		+ ""+ newProduct.getId() 
-            		+ ",'" 
-            		+ newProduct.getName() 
-            		+ "'," 
-            		+ "'" 
-            		+ newProduct.getPrice() 
-            		+ ");";
-            st.executeUpdate(sqlValues1);
+			java.sql.Statement st = con.createStatement();
 
-        } catch (Exception ex) {
-            System.err.println(ex);
-        }
+			String sql1 = "IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'addItems') BEGIN "
+					+ "CREATE TABLE addItems (" + "addIdInput INTEGER PRIMARY KEY, "
+					+ "addNameInput VARCHAR(20) NOT NULL, " + "addPriceInput INTEGER, " + "addQuantityInput FLOAT "
+					+ "); " + "END;";
+			st.executeUpdate(sql1);
+			System.out.println("created successfully");
+
+			String sqlValues1 = "INSERT INTO addItems VALUES (" + newProduct.getId() + ", '" + newProduct.getName()
+					+ "', " + newProduct.getPrice() + ", " + newInvoiceItem.getQuantity() + ");";
+
+			st.executeUpdate(sqlValues1);
+
+		} catch (Exception ex) {
+			System.err.println(ex);
+		}
 	}
 
 	public void removeItem() {
@@ -267,24 +251,17 @@ public class ShopManager {
 		System.out.println("All Items: ");
 		System.out.println("=======================================");
 		for (int i = 0; i < products.size(); i++) {
-			for(int j = 0; j < invoiceItems.size(); j++) {
 			System.out.println("Product Id: ");
 			System.out.println(products.get(i).getId());
 			System.out.println("Product Name: ");
 			System.out.println(products.get(i).getName());
 			System.out.println("Product Price: ");
 			System.out.println(products.get(i).getPrice());
-			System.out.println("Quantity: ");
-			System.out.println(invoiceItems.get(j).getQuantity());
-			System.out.println("Total Price: ");
-			System.out.println(invoiceItems.get(j).getTotalAmount());
 			System.out.println("=======================================");
-		}}
+		}
 	}
 
 	Scanner invoiceSc = new Scanner(System.in);
-	
-	
 
 	public void createInvoice() {
 		String url = "jdbc:sqlserver://localhost:1433;" + "databaseName=Invoice;" + "encrypt=true;"
@@ -347,13 +324,14 @@ public class ShopManager {
 
 			java.sql.Statement st = con.createStatement();
 
-			String sql = "CREATE TABLE createInvoice (" + "Invoice_Number INTEGER primary key,"
-					+ "Full_Name varchar(20) not null," + "phone_number INTEGER," + "Date date" + " );";
+			String sql = "IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'invoices') BEGIN "
+					+ "CREATE TABLE invoices (" + "customerNInput INTEGER PRIMARY KEY, "
+					+ "customerNameInput VARCHAR(20) NOT NULL, " + "customerPhoneNInput INTEGER " + "); " + "END;";
 			st.executeUpdate(sql);
 			System.out.println("created successfully");
 
-			String sqlValues = "insert into invoices values(" + "" + newInvoice.getInvoiceNumber() + ",'"
-					+ newInvoice.getName() + "'," + "'" + newInvoice.getPhoneNumber() + LocalDate.now() + ");";
+			String sqlValues = "INSERT INTO invoices VALUES (" + newInvoice.getInvoiceNumber() + ", '"
+					+ newInvoice.getName() + "', " + newInvoice.getPhoneNumber() + ");";
 			st.executeUpdate(sqlValues);
 
 		} catch (Exception ex) {
@@ -366,7 +344,6 @@ public class ShopManager {
 		System.out.println("===== Invoice Details =====");
 		System.out.println("=================================================");
 		for (int i = 0; i < invoices.size(); i++) {
-			for (int j =0; j < invoiceItems.size(); j++) {
 			System.out.println("Invoice Number: ");
 			System.out.println(invoices.get(i).getInvoiceNumber());
 			System.out.println("Name: ");
@@ -375,10 +352,11 @@ public class ShopManager {
 			System.out.println(invoices.get(i).getPhoneNumber());
 			System.out.println("Number Of Items: ");
 			System.out.println(invoices.size());
+			System.out.println("Quantity: ");
+			System.out.println(invoiceItems.get(i).getQuantity());
 			System.out.println("Total Balance: ");
-			System.out.println(invoiceItems.get(j).getTotalAmount());
+			System.out.println(invoiceItems.get(i).getTotalAmount());
 			System.out.println("=================================================");
-			}
 		}
 		return null;
 	}
@@ -388,15 +366,14 @@ public class ShopManager {
 		int searchInput = invoiceSc.nextInt();
 		for (int i = 0; i < invoices.size(); i++) {
 			if (searchInput == invoices.get(i).getInvoiceNumber()) {
-				for (int j =0; j < invoiceItems.size(); j++) {
 				System.out.println("=======================================");
 				System.out.println("Name: " + invoices.get(i).getName());
 				System.out.println("Phone Number: " + invoices.get(i).getPhoneNumber());
 				System.out.println("Number Of Items: " + invoices.size());
+				System.out.println("Quantity: " + invoiceItems.get(i).getQuantity());
 				System.out.println("Total Balance: " + invoiceItems.get(i).getTotalAmount());
 				System.out.println("=======================================");
 			}
-				}
 		}
 		return null;
 	}
