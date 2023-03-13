@@ -46,9 +46,7 @@ public class ShopManager {
 	public void setShopName(String shopName) {
 
 		try (FileWriter writer = new FileWriter("Invoice.txt", true)) {
-			writer.write("=========================\n");
-			writer.write("=============== Shop Name: " + shopName + " ===============" + "\n");
-			writer.write("=========================\n");
+			writer.write("====================================== Shop Name: " + shopName + " ======================================" + "\n");
 			writer.close();
 			System.out.println("SHOP NAME SAVED!");
 		} catch (Exception e) {
@@ -86,7 +84,7 @@ public class ShopManager {
 	}
 
 	public void setInvoice() {
-		System.out.println("Enter information:");
+		System.out.println("========== Enter information ==========");
 		System.out.print("Tel: ");
 		int telInput = shopScanner.nextInt();
 		tel = telInput;
@@ -118,15 +116,15 @@ public class ShopManager {
 	}
 
 	public void reportStat() {
-		int noOfProducts;
-		int noOfInvoices;
-		noOfProducts = products.size();
-		noOfInvoices = products.size();
+//		int noOfProducts;
+//		int noOfInvoices;
+//		noOfProducts = products.size();
+//		noOfInvoices = invoices.size();
 		System.out.println("=======================================");
 		System.out.println("No Of Items: ");
-		System.out.println(noOfProducts);
+		System.out.println( products.size());
 		System.out.println("No of Invoices: ");
-		System.out.println(noOfInvoices);
+		System.out.println(invoices.size());
 		System.out.println("=======================================");
 	}
 
@@ -145,6 +143,13 @@ public class ShopManager {
 			System.out.println("=======================================");
 			System.out.println("Enter item ID: ");
 			int addIdInput = shopScanner.nextInt();
+			// Check if the entered ID already exists in the list
+			for (Product product : products) {
+				if (product.getId() == addIdInput) {
+					System.out.println("ID already exists. Please enter a different ID: ");
+					 addIdInput = shopScanner.nextInt();
+				}
+			}
 			newProduct.setId(addIdInput);
 			System.out.println("Enter item Name: ");
 			String addNameInput = shopScanner.next();
@@ -174,13 +179,11 @@ public class ShopManager {
 			writer.write(String.format("%20s %20s %20s  %20s\n", "ID", "Name", "Price", "Quantity"));
 			writer.write(
 					"=================================================================================================\n");
-
 			for (int i = 0; i < invoiceItems.size(); i++) {
 				Product product = invoiceItems.get(i).getProductName();
 				writer.write(String.format("%20s %20s %20s %20s\n", product.getId(), product.getName(),
 						product.getPrice(), invoiceItems.get(i).getQuantity()));
 			}
-
 			writer.write(
 					"=================================================================================================\n");
 			System.out.println("ITEMS SAVED!");
@@ -248,8 +251,7 @@ public class ShopManager {
 	}
 
 	public void printAllItems() {
-		System.out.println("All Items: ");
-		System.out.println("=======================================");
+		System.out.println("========== All Items ==========");
 		for (int i = 0; i < products.size(); i++) {
 			System.out.println("Product Id: ");
 			System.out.println(products.get(i).getId());
@@ -257,7 +259,7 @@ public class ShopManager {
 			System.out.println(products.get(i).getName());
 			System.out.println("Product Price: ");
 			System.out.println(products.get(i).getPrice());
-			System.out.println("=======================================");
+			System.out.println("====================");
 		}
 	}
 
@@ -341,22 +343,15 @@ public class ShopManager {
 	}
 
 	public Invoice printInvoice() {
-		System.out.println("===== Invoice Details =====");
-		System.out.println("=================================================");
+		System.out.println("========== Invoice Details ==========");
 		for (int i = 0; i < invoices.size(); i++) {
-			System.out.println("Invoice Number: ");
-			System.out.println(invoices.get(i).getInvoiceNumber());
-			System.out.println("Name: ");
-			System.out.println(invoices.get(i).getName());
-			System.out.println("Phone Number: ");
-			System.out.println(invoices.get(i).getPhoneNumber());
-			System.out.println("Number Of Items: ");
-			System.out.println(invoices.size());
-			System.out.println("Quantity: ");
-			System.out.println(invoiceItems.get(i).getQuantity());
-			System.out.println("Total Balance: ");
-			System.out.println(invoiceItems.get(i).getTotalAmount());
-			System.out.println("=================================================");
+			System.out.println("=======================================");
+			System.out.println("Invoice Number: " + invoices.get(i).getInvoiceNumber());
+			System.out.println("Name: " + invoices.get(i).getName());
+			System.out.println("Phone Number: " + invoices.get(i).getPhoneNumber());
+			System.out.println("Number Of Items: " + products.size());
+			System.out.println("Total Balance: " + invoiceItems.get(i).getTotalAmount());
+			System.out.println("=======================================");
 		}
 		return null;
 	}
@@ -369,8 +364,7 @@ public class ShopManager {
 				System.out.println("=======================================");
 				System.out.println("Name: " + invoices.get(i).getName());
 				System.out.println("Phone Number: " + invoices.get(i).getPhoneNumber());
-				System.out.println("Number Of Items: " + invoices.size());
-				System.out.println("Quantity: " + invoiceItems.get(i).getQuantity());
+				System.out.println("Number Of Items: " + products.size());
 				System.out.println("Total Balance: " + invoiceItems.get(i).getTotalAmount());
 				System.out.println("=======================================");
 			}
